@@ -2,49 +2,43 @@ Boilerplate Apache + Django Virtual Machines with optional project boilerplate
 and support for isolated project frontend/backend, for Red Hat and Debian based
 environments.
 
-This repo provides an easy way to get started on a new Django project. By
-simply bringing up a new virtual machine via `vagrant up`, it is possible
-to have a Red Hat or Debian based environment set up with an Apache + Django
-configuration, along with the default Django starter project already up and
-running, served at `localhost:8080`. With the change of a single configuration
-variable, you can configure the default project to have an isolated frontend/backend.
-Either way, the created project will already have `STATIC_ROOT` and `STATIC_URL`
-configured, and a `requirements.txt` present at its root. With all this out
-of the way, you can get to business. All configuration is stateful thanks
-to Ansible, so the next time you `vagrant provision`, your project will be
-exactly how you left it, the provisioner will just update the database, static
-files, and installed requirements on the machine to match your project.
+This repo provides an easy way to get started on a new Django backend that has an
+isolated frontend. By simply bringing up a new virtual machine via `vagrant up`,
+it is possible to have a Red Hat or Debian based environment set up with an
+Apache + Django configuration, along with a default project already up and running,
+served at `localhost:8080`. The created project will already have Django's
+`STATIC_ROOT` and `STATIC_URL` variables configured, and `requirements.txt`/`package.json`
+files present. With all this out of the way, you can get to business. All configuration
+is stateful thanks to Ansible, so the next time you run `vagrant provision`, your
+project will be exactly how you left it, the provisioner will just update
+the database, static files, and installed requirements on the machine to match your project.
 
 You can also import an existing Django project into this environment! Simply make
-sure you put the root of the project (with `manage.py`) directly in the
-`server/app` folder of whatever environment you choose to go with. A
-`requirements.txt` will be created automatically if it didn't already exist in
-the root of your project, and the `STATIC_ROOT`/`STATIC_URL` variables will be changed
-to work in the environment configuration of your choice.
+sure you put the root of the backend (with `manage.py`) directly in the
+`./server/app` folder. The frontend of the project (with `package.json`) should go in
+the `./client` folder. A `requirements.txt`/`package.json` will be created automatically
+if they didn't already exist in your project.
 For now, only SQLite will work for importing.
 
 # Get Started:
 
 * Install [Vagrant 1.8+](https://www.vagrantup.com/).
 * Clone this repository:
-`git clone https://github.com/gscoppino/vagrant-simple-apache-django --depth=1`
+`git clone https://github.com/gscoppino/vagrant-simple-apache-djangoREST --depth=1`
 * Copy either the `Ubuntu` or `CentOS` directory to the location you
 want to keep your project in, and rename the directory to whatever you like. This
 is now your project folder.
-* (optional) Place an existing Django project in the `server/app` directory
+* (optional) Place an existing Django backend in the `./server/app` directory
 of your project folder. The `manage.py` script for the project should be in the root,
-eg. `server/app/manage.py`.
-* (optional) Open `server/provision/settings.yml` and set `backend_as_a_service` to `true`
-to configure your project that way.
-* (optional) There is also support for automated `package.json` creation and `npm install`
-operations for project frontend if the project is configured with `backend_as_service: true`.
-You'll have to opt-in by enabling the `npm-packagemanager` and `npm-frontend` roles in `configure.yml`.
+eg. `./server/app/manage.py`.
+* (optional) Place an existing frontend in the `./client` directory of your project folder. The
+`package.json` file for the project should in the root, eg. `./client/package.json`.
 * Run `vagrant up` from your project folder.
 
 # Basic Usage:
 
-* `vagrant up` :  When you are ready to spin up the server. If a project
-doesn't exist one will be created in the `backend` directory.
+* `vagrant up` :  When you are ready to spin up the server. If this is the first run,
+a backend and frontend will be created, if they did not already exist.
 * `vagrant provision` : can be used to bring the virtual machine to a new
 desired state without starting from scratch. If changing a configuration file
 (such as the Apache config, or your `requirements.txt`), just run
@@ -52,11 +46,13 @@ desired state without starting from scratch. If changing a configuration file
 
 # Initial Environment
 
-* A new project called `project` will automatically be created for you in
-`server/app` if the provisioner didn't find an existing project. Otherwise,
-the only differences to note will be that a `requirements.txt` was created for
-your project, if it didn't already have one, and the `STATIC_URL`/`STATIC_ROOT`
-variables in your `settings.py` will have been changed to match the environment.
+* A new backend called `app` will automatically be created for you in
+`./server/app` if the provisioner didn't find an existing project, and a new
+frontend will be created in `./client` if the provisioner didn't find an existing
+project. Otherwise, the only differences to note will be that a `requirements.txt`
+was created for your backend, a `package.json` was created for the frontend,
+(if they didn't already have these files), and the `STATIC_URL`/`STATIC_ROOT` variables
+in your `settings.py` will have been changed to match the environment.
 * The project will have been set up and running on `localhost:8080` (note that
   for now, if your existing project is using a database other than **SQLite**,
   the migration task will have failed since the database engine will not exist
@@ -79,15 +75,15 @@ Helper scripts for common tasks live in `server/utils` directory.
 
 ## Project Configuration
 
-Stored in `backend/PROJECT_NAME/settings.py`.
+Stored in `./server/app/app/settings.py`.
 
 ### Project Admin Configuration ###
 
-Create a superuser using `server/utils/django-admin createsuperuser`.
+Create a superuser using `./server/utils/django-admin createsuperuser`.
 Alternatively, if you wish to do this from within the VM:
 * SSH into the VM: `vagrant ssh`.
 * Activate the virtualenv: `./home/vagrant/project_env/bin/activate`.
-* Change directory to `/vagrant/backend`.
+* Change directory to `/vagrant/server/app`.
 * run `python manage.py createsuperuser`.
 
 ### Project Database Configuration ####

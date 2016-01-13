@@ -1,4 +1,4 @@
 ---
 
 frontend_packages: /home/vagrant/node_modules
-frontend_baas: /vagrant/client
+frontend: /vagrant/client

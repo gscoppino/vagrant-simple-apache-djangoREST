@@ -16,5 +16,10 @@
   become: yes
   become_method: sudo
 
+- name: Install Git
+  yum: name=git state=latest
+  become: yes
+  become_method: sudo
+
 - name: Ensure node_modules directory exists.
   file: "path={{ frontend_packages }} state=directory"

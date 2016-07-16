@@ -20,6 +20,12 @@ the `./client` folder. A `requirements.txt`/`package.json` will be created autom
 if they didn't already exist in your project.
 For now, only SQLite will work for importing.
 
+Requirements:
+
+* Vagrant 1.8.4+
+* VirtualBox 5.0.x (until [this issue](https://github.com/mitchellh/vagrant/issues/7593)
+has been resolved).
+
 # Get Started:
 
 * Install [Vagrant 1.8+](https://www.vagrantup.com/).

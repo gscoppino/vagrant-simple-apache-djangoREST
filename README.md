@@ -15,16 +15,15 @@ the database, static files, and installed requirements on the machine to match y
 
 You can also import an existing Django project into this environment! Simply make
 sure you put the root of the backend (with `manage.py`) directly in the
-`./server/app` folder. The frontend of the project (with `package.json`) should go in
+`server/app` folder. The frontend of the project (with `package.json`) should go in
 the `./client` folder. A `requirements.txt`/`package.json` will be created automatically
 if they didn't already exist in your project.
 For now, only SQLite will work for importing.
 
 Requirements:
 
-* Vagrant 1.8.4+
-* VirtualBox 5.0.x (until [this issue](https://github.com/mitchellh/vagrant/issues/7593)
-has been resolved).
+* Vagrant 1.8.7+
+* VirtualBox 5.1.x
 
 # Get Started:
 
@@ -34,11 +33,11 @@ has been resolved).
 * Copy either the `Ubuntu` or `CentOS` directory to the location you
 want to keep your project in, and rename the directory to whatever you like. This
 is now your project folder.
-* (optional) Place an existing Django backend in the `./server/app` directory
+* (optional) Place an existing Django backend in the `server/app` directory
 of your project folder. The `manage.py` script for the project should be in the root,
-eg. `./server/app/manage.py`.
-* (optional) Place an existing frontend in the `./client` directory of your project folder. The
-`package.json` file for the project should in the root, eg. `./client/package.json`.
+eg. `server/app/manage.py`.
+* (optional) Place an existing frontend in the `client` directory of your project folder. The
+`package.json` file for the project should in the root, eg. `client/package.json`.
 * Run `vagrant up` from your project folder.
 
 # Basic Usage:
@@ -53,8 +52,8 @@ desired state without starting from scratch. If changing a configuration file
 # Initial Environment
 
 * A new backend called `app` will automatically be created for you in
-`./server/app` if the provisioner didn't find an existing project, and a new
-frontend will be created in `./client` if the provisioner didn't find an existing
+`server/app` if the provisioner didn't find an existing project, and a new
+frontend will be created in `client` if the provisioner didn't find an existing
 project. Otherwise, the only differences to note will be that a `requirements.txt`
 was created for your backend, a `package.json` was created for the frontend,
 (if they didn't already have these files), and the `STATIC_URL`/`STATIC_ROOT` variables
@@ -81,14 +80,14 @@ Helper scripts for common tasks live in `server/utils` directory.
 
 ## Project Configuration
 
-Stored in `./server/app/app/settings.py`.
+Stored in `server/app/app/settings.py`.
 
 ### Project Admin Configuration ###
 
-Create a superuser using `./server/utils/django-admin createsuperuser`.
+Create a superuser using `server/utils/django-admin createsuperuser`.
 Alternatively, if you wish to do this from within the VM:
 * SSH into the VM: `vagrant ssh`.
-* Activate the virtualenv: `./home/vagrant/project_env/bin/activate`.
+* Activate the virtualenv: `source /home/vagrant/project_env/bin/activate`.
 * Change directory to `/vagrant/server/app`.
 * run `python manage.py createsuperuser`.
 

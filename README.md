@@ -30,9 +30,6 @@ Requirements:
 * Install [Vagrant 1.8+](https://www.vagrantup.com/).
 * Clone this repository:
 `git clone https://github.com/gscoppino/vagrant-simple-apache-djangoREST --depth=1`
-* Copy either the `Ubuntu` or `CentOS` directory to the location you
-want to keep your project in, and rename the directory to whatever you like. This
-is now your project folder.
 * (optional) Place an existing Django backend in the `server/app` directory
 of your project folder. The `manage.py` script for the project should be in the root,
 eg. `server/app/manage.py`.

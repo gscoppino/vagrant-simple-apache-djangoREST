@@ -11,7 +11,7 @@
     - apache-server
     - django-framework
     - npm-packagemanager
-    - django-app
+    - django-project
     - npm-frontend
 
   post_tasks:

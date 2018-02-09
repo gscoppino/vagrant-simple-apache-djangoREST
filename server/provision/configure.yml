@@ -9,6 +9,7 @@
   roles:
 
     - apache-server
+    - python3.6
     - django-framework
     - npm-packagemanager
     - django-project

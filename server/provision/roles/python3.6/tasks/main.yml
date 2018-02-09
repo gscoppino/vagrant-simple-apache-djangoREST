@@ -1,0 +1,16 @@
+---
+
+- name: IUS package will be present.
+  yum: name=https://centos7.iuscommunity.org/ius-release.rpm state=present
+  become: yes
+  become_method: sudo
+
+- name: Python 3.6 will be present.
+  yum: name=python36u state=present
+  become: yes
+  become_method: sudo
+
+- name: pip 3.6 will be present.
+  yum: name=python36u-pip state=present
+  become: yes
+  become_method: sudo

@@ -1,6 +1,6 @@
 ---
 
 - name: Restart Web Server
-  service: name=httpd state=restarted enabled=yes
+  command: systemctl restart httpd.service
   become: yes
   become_method: sudo

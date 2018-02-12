@@ -20,6 +20,11 @@
   become: yes
   become_method: sudo
 
+- name: PsycoPG will be present for use in provisioning PostgreSQL server.
+  yum: name=python-psycopg2 state=present
+  become: yes
+  become_method: sudo
+
 - name: PostgreSQL database will be initialized (or data directory is non-empty).
   command: /usr/pgsql-9.6/bin/postgresql96-setup initdb
   ignore_errors: True
@@ -29,6 +34,18 @@
 - name: PostgreSQL server will be started.
   command: systemctl start postgresql-9.6.service
   become: yes
+  become_method: sudo
+
+- name: A PostgreSQL role for Vagrant will exist.
+  postgresql_user: name=vagrant state=present
+  become: yes
+  become_user: postgres
+  become_method: sudo
+
+- name: A PostgreSQL database for Vagrant will exist.
+  postgresql_db: name=vagrant state=present owner=vagrant
+  become: yes
+  become_user: postgres
   become_method: sudo
 
 - name: PostgreSQL server will be configured to run at system startup.

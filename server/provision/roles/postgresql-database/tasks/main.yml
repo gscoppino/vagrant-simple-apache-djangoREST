@@ -37,7 +37,7 @@
   become_method: sudo
 
 - name: A PostgreSQL role for Vagrant will exist.
-  postgresql_user: name=vagrant state=present
+  postgresql_user: name=vagrant state=present role_attr_flags=CREATEDB
   become: yes
   become_user: postgres
   become_method: sudo

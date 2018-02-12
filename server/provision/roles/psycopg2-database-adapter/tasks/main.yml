@@ -1,6 +1,0 @@
----
-
-- name: PsycoPG will be present.
-  pip: name=psycopg2-binary state=present virtualenv={{ backend_env }}
-  become: yes
-  become_method: sudo

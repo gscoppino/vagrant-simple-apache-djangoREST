@@ -22,4 +22,5 @@
     - name: Provisioning has completed!
       shell: "true"
       notify:
-        - Restart Server
+        - Restart Web Server
+        - Restart Database Server

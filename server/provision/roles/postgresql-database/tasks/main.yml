@@ -26,6 +26,11 @@
   become: yes
   become_method: sudo
 
+- name: PostgreSQL server will be started.
+  command: systemctl start postgresql-9.6.service
+  become: yes
+  become_method: sudo
+
 - name: PostgreSQL server will be configured to run at system startup.
   command: systemctl enable postgresql-9.6.service
   become: yes

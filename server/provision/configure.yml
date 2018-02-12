@@ -9,8 +9,10 @@
   roles:
 
     - apache-server
+    - postgresql-database
     - python3.6
     - django-framework
+    - psycopg2-database-adapter
     - npm-packagemanager
     - django-project
     - npm-frontend

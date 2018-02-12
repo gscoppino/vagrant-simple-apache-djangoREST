@@ -1,0 +1,32 @@
+---
+
+- name: Disable PostgreSQL packages from CentOS 7 base repository.
+  lineinfile: path=/etc/yum.repos.d/CentOS-Base.repo insertafter=[base] line=exclude=postgresql* state=present
+  become: yes
+  become_method: sudo
+
+- name: Disable PostgreSQL packages from CentOS7 updates repository.
+  lineinfile: path=/etc/yum.repos.d/CentOS-Base.repo insertafter=[updates] line=exclude=postgresql* state=present
+  become: yes
+  become_method: sudo
+
+- name: PostgreSQL PGDG package will be present.
+  yum: name=https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm state=present
+  become: yes
+  become_method: sudo
+
+- name: PostgreSQL server will be present.
+  yum: name=postgresql96-server state=present
+  become: yes
+  become_method: sudo
+
+- name: PostgreSQL database will be initialized (or data directory is non-empty).
+  command: /usr/pgsql-9.6/bin/postgresql96-setup initdb
+  ignore_errors: True
+  become: yes
+  become_method: sudo
+
+- name: PostgreSQL server will be configured to run at system startup.
+  command: systemctl enable postgresql-9.6.service
+  become: yes
+  become_method: sudo

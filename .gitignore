@@ -1,2 +1,4 @@
 .vagrant
 configure.retry
+server/project/**/*.pyc
+server/project/static

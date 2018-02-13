@@ -22,3 +22,8 @@
   shell: npm install
   args:
     chdir: "{{ frontend }}"
+
+- name: Frontend code will be built.
+  shell: npm run build
+  args:
+    chdir: "{{ frontend }}"

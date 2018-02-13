@@ -18,7 +18,7 @@
   become: yes
   become_method: sudo
 
-- name: Python PsycoPG package will be present in the virtual environment.
+- name: Python PsycoPG package will be present in the Virtual Environment.
   pip: name=psycopg2-binary state=present virtualenv={{ backend_env }}
   become: yes
   become_method: sudo

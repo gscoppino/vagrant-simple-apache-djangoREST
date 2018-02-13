@@ -18,3 +18,8 @@
 
 - name: Give Apache execute permissions for VirtualEnv.
   command: chmod 710 /home/vagrant
+
+- name: Apache server will be configured to run at system startup.
+  command: systemctl enable httpd.service
+  become: yes
+  become_method: sudo

@@ -42,7 +42,13 @@
   become_user: postgres
   become_method: sudo
 
-- name: A PostgreSQL database for Vagrant will exist.
+- name: Existing PostgreSQL database for Vagrant will be dropped.
+  postgresql_db: name=vagrant state=absent
+  become: yes
+  become_user: postgres
+  become_method: sudo
+
+- name: A new PostgreSQL database for Vagrant will exist.
   postgresql_db: name=vagrant state=present owner=vagrant
   become: yes
   become_user: postgres

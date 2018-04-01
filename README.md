@@ -22,12 +22,12 @@ For now, only SQLite will work for importing.
 
 Requirements:
 
-* Vagrant 1.8.7+
+* Vagrant 2.0.x
 * VirtualBox 5.1.x
 
 # Get Started:
 
-* Install [Vagrant 1.8+](https://www.vagrantup.com/).
+* Install [Vagrant 2.0.x](https://www.vagrantup.com/).
 * Clone this repository:
 `git clone https://github.com/gscoppino/vagrant-simple-apache-djangoREST --depth=1`
 * Copy either the `Ubuntu` or `CentOS` directory to the location you

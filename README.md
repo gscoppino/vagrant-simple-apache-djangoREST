@@ -15,7 +15,7 @@ the database, static files, and installed requirements on the machine to match y
 
 You can also import an existing Django project into this environment! Simply make
 sure you put the root of the backend (with `manage.py`) directly in the
-`server/app` folder. The frontend of the project (with `package.json`) should go in
+`server/project` folder. The frontend of the project (with `package.json`) should go in
 the `./client` folder. A `requirements.txt`/`package.json` will be created automatically
 if they didn't already exist in your project.
 For now, only SQLite will work for importing.
@@ -33,9 +33,9 @@ Requirements:
 * Copy either the `Ubuntu` or `CentOS` directory to the location you
 want to keep your project in, and rename the directory to whatever you like. This
 is now your project folder.
-* (optional) Place an existing Django backend in the `server/app` directory
+* (optional) Place an existing Django backend in the `server/project` directory
 of your project folder. The `manage.py` script for the project should be in the root,
-eg. `server/app/manage.py`.
+eg. `server/project/manage.py`.
 * (optional) Place an existing frontend in the `client` directory of your project folder. The
 `package.json` file for the project should in the root, eg. `client/package.json`.
 * Run `vagrant up` from your project folder.
@@ -51,8 +51,8 @@ desired state without starting from scratch. If changing a configuration file
 
 # Initial Environment
 
-* A new backend called `app` will automatically be created for you in
-`server/app` if the provisioner didn't find an existing project, and a new
+* A new backend called `project` will automatically be created for you in
+`server/project` if the provisioner didn't find an existing project, and a new
 frontend will be created in `client` if the provisioner didn't find an existing
 project. Otherwise, the only differences to note will be that a `requirements.txt`
 was created for your backend, a `package.json` was created for the frontend,
@@ -80,7 +80,7 @@ Helper scripts for common tasks live in `server/utils` directory.
 
 ## Project Configuration
 
-Stored in `server/app/app/settings.py`.
+Stored in `server/project/project/settings.py`.
 
 ### Project Admin Configuration ###
 
@@ -88,7 +88,7 @@ Create a superuser using `server/utils/django-admin createsuperuser`.
 Alternatively, if you wish to do this from within the VM:
 * SSH into the VM: `vagrant ssh`.
 * Activate the virtualenv: `source /home/vagrant/project_env/bin/activate`.
-* Change directory to `/vagrant/server/app`.
+* Change directory to `/vagrant/server/project`.
 * run `python manage.py createsuperuser`.
 
 ### Project Database Configuration ####

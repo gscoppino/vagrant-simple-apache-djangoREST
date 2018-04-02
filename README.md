@@ -1,103 +1,128 @@
-Boilerplate Apache + Django Virtual Machines with optional project boilerplate
-and support for isolated project frontend/backend, for Red Hat and Debian based
-environments.
+# Purpose
 
-This repo provides an easy way to get started on a new Django backend that has an
-isolated frontend. By simply bringing up a new virtual machine via `vagrant up`,
-it is possible to have a Red Hat or Debian based environment set up with an
-Apache + Django configuration, along with a default project already up and running,
-served at `localhost:8080`. The created project will already have Django's
-`STATIC_ROOT` and `STATIC_URL` variables configured, and `requirements.txt`/`package.json`/`fixtures.json`
-files present. With all this out of the way, you can get to business. All configuration
-is stateful thanks to Ansible, so the next time you run `vagrant provision`, your
-project will be exactly how you left it, the provisioner will just update
-the database, static files, and installed requirements on the machine to match your project.
+Provide a configuration managed Virtual Machine for a Django server application
+that communicates with a client Single Page Application (SPA) over a REST API.
 
-You can also import an existing Django project into this environment! Simply make
-sure you put the root of the backend (with `manage.py`) directly in the
-`server/project` folder. The frontend of the project (with `package.json`) should go in
-the `./client` folder. A `requirements.txt`/`package.json`/`fixtures.json` will be created automatically
-if they didn't already exist in your project.
-For now, only SQLite will work for importing.
+# Problem Statement
 
-Requirements:
+This project attempts to mitigate the following concerns relevant to team-based
+web application development.
 
-* Vagrant 2.0.x
-* VirtualBox 5.1.x
+* Ensuring that the local development environment of the web application is as
+close to the production environment as possible (which can make it easier to
+plan and execute testing / deployment processes).
 
-# Get Started:
+* Mimizing the number of development dependencies that a developer needs to
+install locally on their development machine (which can reduce the chance of
+development issues that occur due to machine-specific misconfiguration).
 
-* Install [Vagrant 2.0.x](https://www.vagrantup.com/).
-* Clone this repository:
-`git clone https://github.com/gscoppino/vagrant-simple-apache-djangoREST --depth=1`
-* Copy either the `Ubuntu` or `CentOS` directory to the location you
-want to keep your project in, and rename the directory to whatever you like. This
-is now your project folder.
-* (optional) Place an existing Django backend in the `server/project` directory
-of your project folder. The `manage.py` script for the project should be in the root,
-eg. `server/project/manage.py`.
-* (optional) Place an existing frontend in the `client` directory of your project folder. The
-`package.json` file for the project should in the root, eg. `client/package.json`.
-* Run `vagrant up` from your project folder.
+* Ensuring that all developers are able to bring their local development
+environments to a common state with regards to application dependencies and
+fixture data (which ensures that all issues with the application can be
+understood and reproduced by anyone with access to the project).
 
-# Basic Usage:
+# Overview
 
-* `vagrant up` :  When you are ready to spin up the server. If this is the first run,
-a backend and frontend will be created, if they did not already exist.
-* `vagrant provision` : can be used to bring the virtual machine to a new
-desired state without starting from scratch. If changing a configuration file
-(such as the Apache config, or your `requirements.txt`), just run
-`vagrant provision` to get the machine to the state it needs to be in.
+The virtual machine is configured and managed using Vagrant. Vagrant uses
+VirtualBox as the provider for the virtual machine.
 
-# Initial Environment
+The configuration managed Virtual Machine provides the following development
+environment:
 
-* A new backend called `project` will automatically be created for you in
-`server/project` if the provisioner didn't find an existing project, and a new
-frontend will be created in `client` if the provisioner didn't find an existing
-project. Otherwise, the only differences to note will be that a `requirements.txt`
-was created for your backend, a `package.json` was created for the frontend,
-(if they didn't already have these files), and the `STATIC_URL`/`STATIC_ROOT` variables
-in your `settings.py` will have been changed to match the environment.
-* The project will have been set up and running on `localhost:8080` (note that
-  for now, if your existing project is using a database other than **SQLite**,
-  the migration task will have failed since the database engine will not exist
-  on the VM. Planning to set up dynamic installing
-  of the database engine in the very near future).
+* Operating System: Ubuntu 14.04 OR CentOS 7.4
+* Web Server: Apache
+* Server Programming Environment: Python 2.x, Django
+* Client Programming Environment: NodeJS 8.x
 
-# Making Changes to the Apache Configuration
+# Dependencies
 
-The Apache VirtualHost configuration can be found in
-`server/provision/roles/apache/files`. If you customize it (for example, to
-change the path to `wsgi.py` if you imported your own project or changed the
-project name), make sure to run `vagrant provision`, which will copy it
-into the virtual machine.
+* [VirtualBox 5.1.x](https://www.virtualbox.org/)
+* [Vagrant 2.0.x](https://www.vagrantup.com/)
 
-# Working with the virtual machine from outside the VM
+Software versions other than ones specified may work, but it is not recommended
+to deviate from these requirements. Where a flexible version range is provided,
+consider using the lowest software version in said range if you encounter
+issues with a new(er) software version.
 
-Helper scripts for common tasks live in `server/utils` directory.
+# Getting Started
 
-# Django 101
+## Start the Environment
 
-## Project Configuration
+* Ensure that all of the dependencies are installed and operational. Consult
+the documentation provided by the publishers of these software for details on
+how to install and verify proper operation.
+* Download the environment and pick either the `Ubuntu` or `CentOS` derivative.
+* From a Command Line Interface (CLI), execute the command `vagrant up` in the
+root directory of the environment. This command will build a virtual machine
+and start the application.
+* Open a web browser and load the web address `localhost:8080` to confirm the
+application is operational.
+* From a CLI, execute the command `vagrant halt`. This command will shut down
+the virtual machine.
 
-Stored in `server/project/project/settings.py`.
+The environment will have automatically created a new Django project in
+`./server/project` if one did not previously exist, with empty `fixtures.json`
+and `requirements.txt` files. The `settings.py` will also have the
+`STATIC_ROOT` and `STATIC_URL` variables correctly configured. The
+environment will also have automatically created a `package.json` file in
+`./client/` if one did not previously exist.
 
-### Project Admin Configuration ###
 
-Create a superuser using `server/utils/shell.sh` and then running `python manage.py createsuperuser`.
-Alternatively, if you wish to do this from within the VM:
-* SSH into the VM: `vagrant ssh`.
-* Activate the virtualenv: `source /home/vagrant/project_env/bin/activate`.
-* Change directory to `/vagrant/server/project`.
-* run `python manage.py createsuperuser`.
+## Manage the Environment
 
-### Project Database Configuration ####
+After the environment has been shut down, running `vagrant up` to restart
+the environment will not perform any further configuration changes. At times,
+though, it may be necessary or desired to run configuration steps again. For
+example, if performing a checkout of another developers branch where they
+updated a dependency, it would be ideal that the same dependency version is
+employed on your local machine. Another example is if it is desired to reset
+the database to some default set of pre-configured data. There are two methods
+to go about re-running configuration:
 
-`DATABASES['default']`: Provide information for your database
-management system here.
+1. Running the command `vagrant destroy` will delete the virtual machine that
+was created using `vagrant up`. Running `vagrant up` again will create a new
+virtual machine and run configuration steps.
 
-### Project Static Files Configuration ####
+2. Running the command `vagrant provision` while a virtual machine that exists
+is running will run configuration steps without recreating the virtual machine.
+This is much quicker and recommended for most cases.
 
-`STATIC_URL`: The directory Django will look in for static files within `INSTALLED_APPS` when using `./manage.py runserver` or `./manage.py collectstatic`.
+## SSH Into the Environment
 
-`STATIC_ROOT`: Where Django will dump static files it finds via `./manage.py collectstatic`.
+At times, it may be necessary to enter into the environment, such as to make
+migrations for changes to Django models. Secure Shell (SSH) can be utilized for
+this purpose. Running the command `vagrant ssh` while a virtual machine that
+exists is running will enter the environment. However, this approach is not
+recommended since the Python environment configuration will not be set in the
+shell. Instead, running the shell script `./server/utils/shell.sh` will perform
+the SSH connection and ensure that the Python environment configuration is set
+in the resulting shell.
+
+# Advanced Usage
+
+## Importing an Existing Project
+
+An existing Django project or client SPA can be imported into this environment.
+This is due to the fact that the environment will not attempt to start a new
+client or Django project if one already exists. To integrate the existing
+component, ensure the following:
+
+* The existing component should be capable of running on the software version(s)
+present in the environment. If it does not, either modify the component to do so
+or modify the configuration to match the required software version(s) of the
+software.
+
+* If the existing component is a server application, it should be placed such
+that the `manage.py` script is located in `./server/project`.
+
+* If the existing component is a client SPA, it should be placed such that the
+`package.json` is location in `./client`.
+
+## Making Changes to the Configuration
+
+The VM is configured using [Vagrant](https://vagrantup.com/). Consult the
+documentation for information on how to modify the configuration of the VM.
+
+The environment inside the VM is configured using
+[Ansible](https://www.ansible.com/). Consult the Ansible documentation for
+information on how to modify the configuration of the environment.

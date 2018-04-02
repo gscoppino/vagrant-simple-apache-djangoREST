@@ -7,7 +7,7 @@ isolated frontend. By simply bringing up a new virtual machine via `vagrant up`,
 it is possible to have a Red Hat or Debian based environment set up with an
 Apache + Django configuration, along with a default project already up and running,
 served at `localhost:8080`. The created project will already have Django's
-`STATIC_ROOT` and `STATIC_URL` variables configured, and `requirements.txt`/`package.json`
+`STATIC_ROOT` and `STATIC_URL` variables configured, and `requirements.txt`/`package.json`/`fixtures.json`
 files present. With all this out of the way, you can get to business. All configuration
 is stateful thanks to Ansible, so the next time you run `vagrant provision`, your
 project will be exactly how you left it, the provisioner will just update
@@ -16,7 +16,7 @@ the database, static files, and installed requirements on the machine to match y
 You can also import an existing Django project into this environment! Simply make
 sure you put the root of the backend (with `manage.py`) directly in the
 `server/project` folder. The frontend of the project (with `package.json`) should go in
-the `./client` folder. A `requirements.txt`/`package.json` will be created automatically
+the `./client` folder. A `requirements.txt`/`package.json`/`fixtures.json` will be created automatically
 if they didn't already exist in your project.
 For now, only SQLite will work for importing.
 
@@ -84,7 +84,7 @@ Stored in `server/project/project/settings.py`.
 
 ### Project Admin Configuration ###
 
-Create a superuser using `server/utils/django-admin createsuperuser`.
+Create a superuser using `server/utils/shell.sh` and then running `python manage.py createsuperuser`.
 Alternatively, if you wish to do this from within the VM:
 * SSH into the VM: `vagrant ssh`.
 * Activate the virtualenv: `source /home/vagrant/project_env/bin/activate`.
